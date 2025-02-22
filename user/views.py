@@ -1,14 +1,34 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 
-from .forms import RegisterForm
+from .forms import RegisterForm, LoginForm
 
 # Create your views here.
 
 def loginUser(request):
-    return render(request, 'login.html')
+    """Login a user."""
+    form = LoginForm(request.POST or None)
+
+    context = {
+        'form': form
+    }
+
+    if form.is_valid():
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+
+        authenticated_user = authenticate(username=username, password=password)
+
+        if authenticated_user is not None:
+            login(request, authenticated_user)
+            messages.success(request, 'User logged in successfully.')
+            return redirect('index')
+        else:
+            messages.error(request, 'Invalid username or password.')
+
+    return render(request, 'login.html', context)
 
 def register(request):
     """Register a new user."""
