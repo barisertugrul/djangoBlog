@@ -11,7 +11,9 @@ def loginUser(request):
 
 def register(request):
     """Register a new user."""
-    if request.method == 'POST':
+
+    """Method 1"""
+    """if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             print(form.cleaned_data)
@@ -45,7 +47,35 @@ def register(request):
         context = {
             'form': form
         }
-        return render(request, 'register.html', context)
+        return render(request, 'register.html', context)"""
+
+    """Method 2"""
+    form = RegisterForm(request.POST or None)
+    if form.is_valid():
+        print(form.cleaned_data)
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+        email = form.cleaned_data.get('email')
+        first_name = form.cleaned_data.get('first_name')
+        last_name = form.cleaned_data.get('last_name')
+
+        newUser = User (
+            username = username,
+            email = email,
+            first_name = first_name,
+            last_name = last_name
+        )
+        newUser.set_password(password)
+        newUser.save()
+
+        login(request, newUser)
+
+        return redirect('index')
+
+    context = {
+        'form': form
+    }
+    return render(request, 'register.html', context)
 
 def logoutUser(request):
     pass
