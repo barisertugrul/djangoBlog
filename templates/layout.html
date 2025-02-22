@@ -9,6 +9,16 @@
 <body>
     {% include 'includes/navbar.html' %}
 
+        {% if messages %}
+            <div class="container mt-3">
+                {% for message in messages %}
+                    <div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
     <div class="container mt-5">
         {% block body %}
 
