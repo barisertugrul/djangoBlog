@@ -5,4 +5,9 @@
         <h3>Welcome to Django Blog</h3>
         <p>This is a simple blog built with Django.</p>
     </div>
+    <ul>
+    {% for number in numbers %}
+        <li>{{ number }}</li>
+    {% endfor %}
+    </ul>
 {% endblock body %}
