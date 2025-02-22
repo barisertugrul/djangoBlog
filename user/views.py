@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 
 from .forms import RegisterForm, LoginForm
 
@@ -100,4 +100,7 @@ def register(request):
     return render(request, 'register.html', context)
 
 def logoutUser(request):
-    pass
+    """Logout a user."""
+    logout(request)
+    messages.success(request, 'User logged out successfully.')
+    return redirect('index')
