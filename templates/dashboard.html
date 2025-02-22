@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-4">Dashboard</h1>
+        <p>Hi <small>{{request.user.username}}</small> Welcome to the control panel.</p>
+        <hr>
+        <div class="row">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Articles</h2>
+                    <a href="{% url 'article:create' %}" class="btn btn-primary">Create Article</a>
+                </div>
+                {% for article in articles %}
+                    <ul class="list-group list-group-horizontal w-100">
+                        <li class="list-group-item d-flex justify-content-between gap-2 align-items-start w-100 mb-2">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">
+                                    <a href="{% url 'article:detail' article.id %}">{{ article.title }}</a>
+                                </div>
+                                {{ article.created_at }}
+                            </div>
+                            <button class="btn btn-primary">Edit</button>
+                            <button class="btn btn-danger">Delete</button>
+                        </li>
+                    </ul>
+                {% endfor %}
+        </div>
+    </div>
+{% endblock body %}
