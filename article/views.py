@@ -33,11 +33,11 @@ def create(request):
     }
     return render(request, 'createarticle.html', context)
 
-def article(request, id):
+def detail(request, id):
     context = {
-        'article': Article.objects.get(id=id)
+        'article': Article.objects.filter(id=id, author=request.user).first()
     }
-    return render(request, 'article.html', context)
+    return render(request, 'detail.html', context)
 
 def update(request, id):
     pass
