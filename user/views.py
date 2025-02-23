@@ -24,7 +24,7 @@ def loginUser(request):
         if authenticated_user is not None:
             login(request, authenticated_user)
             messages.success(request, 'User logged in successfully.')
-            return redirect('index')
+            return redirect('article:dashboard')
         else:
             messages.error(request, 'Invalid username or password.')
 
@@ -92,7 +92,7 @@ def register(request):
         login(request, newUser)
         messages.success(request, 'User registered successfully.')
 
-        return redirect('index')
+        return redirect('article:dashboard')
 
     context = {
         'form': form

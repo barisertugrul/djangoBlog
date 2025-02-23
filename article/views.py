@@ -1,4 +1,5 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
+from django.contrib import messages
 
 from article.models import Article
 
@@ -14,15 +15,19 @@ def about(request):
 
 def dashboard(request):
     context = {
-        'articles': Article.objects.all()
+        'articles': Article.objects.filter(author = request.user)
     }
     return render(request, 'dashboard.html', context)
 
 def create(request):
     form = ArticleForm(request.POST or None)
     if form.is_valid():
-        form.save()
-        form = ArticleForm()
+        article = form.save(commit=False)
+        article.author = request.user
+        article.save()
+        messages.success(request, 'Article created successfully')
+        # form = ArticleForm()
+        return redirect('article:dashboard')
     context = {
         'form': form
     }
@@ -33,3 +38,9 @@ def article(request, id):
         'article': Article.objects.get(id=id)
     }
     return render(request, 'article.html', context)
+
+def update(request, id):
+    pass
+
+def delete(request, id):
+    pass

@@ -10,20 +10,39 @@
                     <h2>Articles</h2>
                     <a href="{% url 'article:create' %}" class="btn btn-primary">Create Article</a>
                 </div>
-                {% for article in articles %}
-                    <ul class="list-group list-group-horizontal w-100">
-                        <li class="list-group-item d-flex justify-content-between gap-2 align-items-start w-100 mb-2">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">
-                                    <a href="{% url 'article:detail' article.id %}">{{ article.title }}</a>
-                                </div>
-                                {{ article.created_at }}
-                            </div>
-                            <button class="btn btn-primary">Edit</button>
-                            <button class="btn btn-danger">Delete</button>
-                        </li>
-                    </ul>
-                {% endfor %}
+                {% if articles %}
+                    <p>You have {{ articles|length }} articles.</p>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Created Date</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for article in articles %}
+                                <tr>
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td><a href="{% url 'article:detail' article.id %}">{{ article.title }}</a></td>
+                                    <td>{{ article.author.username }}</td>
+                                    <td>{{ article.created_date }}</td>
+                                    <td>
+                                        <a href="{% url 'article:update' article.id %}" class="btn btn-primary">Edit</a>
+                                        <a href="{% url 'article:delete' article.id %}" class="btn btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="alert alert-info">
+                        You don't have any articles yet.
+                    </div>
+                {% endif %}
+
         </div>
     </div>
 {% endblock body %}
