@@ -13,6 +13,9 @@ Login
 
       <form method="post">
         {% csrf_token %}
+        {% if next %}
+            <input type="hidden" name="next" value="{{ next }}">
+        {% endif %}
         {{ form|crispy }}
         <br />
         <a href="{% url 'user:register' %}">Don't have an account? Register</a>

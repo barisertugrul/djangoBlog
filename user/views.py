@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
+from django.utils.http import url_has_allowed_host_and_scheme
 
 from .forms import RegisterForm, LoginForm
 
@@ -11,8 +12,20 @@ def loginUser(request):
     """Login a user."""
     form = LoginForm(request.POST or None)
 
+    # Get the next URL
+    next_url = request.GET.get('next') or request.POST.get('next')
+
+    # Check if the next URL is safe
+    if next_url and not url_has_allowed_host_and_scheme(
+        url=next_url,
+        allowed_hosts={request.get_host()},
+        require_https=request.is_secure()
+    ):
+        next_url = None
+
     context = {
-        'form': form
+        'form': form,
+        'next': next_url
     }
 
     if form.is_valid():
@@ -24,6 +37,9 @@ def loginUser(request):
         if authenticated_user is not None:
             login(request, authenticated_user)
             messages.success(request, 'User logged in successfully.')
+
+            if next_url:
+                return redirect(next_url)
             return redirect('article:dashboard')
         else:
             messages.error(request, 'Invalid username or password.')
