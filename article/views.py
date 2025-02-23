@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from article.models import Article
 
@@ -13,12 +14,14 @@ def index(request):
 def about(request):
     return render(request, 'about.html')
 
+@login_required(login_url='user:login')
 def dashboard(request):
     context = {
         'articles': Article.objects.filter(author = request.user)
     }
     return render(request, 'dashboard.html', context)
 
+@login_required(login_url='user:login')
 def create(request):
     form = ArticleForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -43,6 +46,7 @@ def detail(request, id):
     }
     return render(request, 'detail.html', context)
 
+@login_required(login_url='user:login')
 def update(request, id):
     """Update an article."""
     article = get_object_or_404(Article, id=id, author=request.user)
@@ -58,6 +62,7 @@ def update(request, id):
     }
     return render(request, 'update.html', context)
 
+@login_required(login_url='user:login')
 def delete(request, id):
     """Delete an article."""
     article = get_object_or_404(Article, id=id, author=request.user)
