@@ -44,7 +44,19 @@ def detail(request, id):
     return render(request, 'detail.html', context)
 
 def update(request, id):
-    pass
+    """Update an article."""
+    article = get_object_or_404(Article, id=id, author=request.user)
+    form = ArticleForm(request.POST or None, request.FILES or None, instance=article)
+    if form.is_valid():
+        article = form.save(commit=False)
+        article.author = request.user
+        article.save()
+        messages.success(request, 'Article updated successfully')
+        return redirect('article:dashboard')
+    context = {
+        'form': form
+    }
+    return render(request, 'update.html', context)
 
 def delete(request, id):
     pass
