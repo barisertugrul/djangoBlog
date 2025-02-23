@@ -59,4 +59,8 @@ def update(request, id):
     return render(request, 'update.html', context)
 
 def delete(request, id):
-    pass
+    """Delete an article."""
+    article = get_object_or_404(Article, id=id, author=request.user)
+    article.delete()
+    messages.success(request, 'Article deleted successfully')
+    return redirect('article:dashboard')
