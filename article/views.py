@@ -7,6 +7,13 @@ from article.models import Article
 from .forms import ArticleForm
 
 # Create your views here.
+
+def articles(request):
+    context = {
+        'articles': Article.objects.all()
+    }
+    return render(request, 'articles.html', context)
+
 def index(request):
     context = {}
     return render(request, 'index.html', context)
@@ -40,7 +47,7 @@ def detail(request, id):
     """ context = {
         'article': Article.objects.filter(id=id, author=request.user).first()
     } """
-    article = get_object_or_404(Article, id=id, author=request.user)
+    article = get_object_or_404(Article, id=id)
     context = {
         'article': article
     }

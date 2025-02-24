@@ -2,3 +2,8 @@
 /devdocs
 **/__pycache__/
 **/*.pyc
+
+/media
+/static
+/staticfiles
+.env
