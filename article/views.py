@@ -9,8 +9,15 @@ from .forms import ArticleForm
 # Create your views here.
 
 def articles(request):
+    keyword = request.GET.get('keyword')
+    if keyword:
+        articles = Article.objects.filter(title__contains=keyword)
+    else:
+        articles = Article.objects.all()
+
     context = {
-        'articles': Article.objects.all()
+        'articles': articles,
+        'keyword': keyword
     }
     return render(request, 'articles.html', context)
 
