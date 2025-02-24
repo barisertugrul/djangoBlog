@@ -1,41 +1,46 @@
 # Django Blog Project
 
-Bu Django projesi, blog yazıları oluşturup yönetebileceğiniz bir web uygulamasıdır.
+This Django project is a web application where you can create and manage blog posts.
 
-## Gereksinimler
+## Requirements
 
-- Python 3.8 veya üzeri
-- pip (Python paket yöneticisi)
+- Python 3.8 or higher
+- pip (Python package manager)
 
-## Kurulum
+## Setup
 
-### 1. Projeyi İndirin
-```
+### 1. Clone the Project
+
+```bash
 git clone https://github.com/barisertugrul/djangoBlog.git
 cd djangoBlog
 ```
 
-### 2. Sanal Ortam Oluşturun ve Aktif Edin
+### 2. Create and Activate a Virtual Environment
 
-Windows için:
-```
+For Windows:
+
+```bash
 python -m venv venv
 venv\Scripts\activate
 ```
 
-Linux/macOS için:
-```
+For Linux/macOS:
+
+```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 3. Gerekli Paketleri Yükleyin
-```
+### 3. Install Required Packages
+
+```bash
 pip install -r requirements.txt
 ```
 
-Eğer requirements.txt dosyası yoksa, aşağıdaki paketleri manuel olarak yükleyin:
-```
+If `requirements.txt` is not available, manually install the following packages:
+
+```bash
 pip install django
 pip install django-crispy-forms
 pip install crispy-bootstrap5
@@ -44,49 +49,55 @@ pip install Pillow
 pip install django-cleanup
 ```
 
-### 4. Gerekli Klasörleri Oluşturun
-```
+### 4. Create Necessary Folders
+
+```bash
 mkdir static
 mkdir media
 mkdir staticfiles
 ```
 
-### 5. Veritabanı İşlemleri
-```
+### 5. Database Operations
+
+```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 6. Statik Dosyaları Toplayın
-```
+### 6. Collect Static Files
+
+```bash
 python manage.py collectstatic
 ```
 
-### 7. Süper Kullanıcı Oluşturun
-```
+### 7. Create a Superuser
+
+```bash
 python manage.py createsuperuser
 ```
 
-### 8. Projeyi Çalıştırın
-```
+### 8. Run the Project
+
+```bash
 python manage.py runserver
 ```
 
-Tarayıcınızda `http://127.0.0.1:8000` adresine giderek projeyi görüntüleyebilirsiniz.
+Visit `http://127.0.0.1:8000` in your browser to view the project.
 
-## Önemli Notlar
+## Important Notes
 
-- Projeyi production ortamına almadan önce `settings.py` dosyasındaki `DEBUG = True` değerini `False` olarak değiştirin.
-- `SECRET_KEY` değerini güvenli bir şekilde saklayın.
-- Production ortamında güvenli bir veritabanı kullanın.
+- Before deploying to production, change `DEBUG = True` in `settings.py` to `False`.
+- Keep the `SECRET_KEY` secure.
+- Use a secure database in the production environment.
 
-## Klasör Yapısı
+## Folder Structure
 
 ```
-proje_klasörü/
+project_folder/
 │
-├── static/          # Statik dosyalar (CSS, JS, resimler)
-├── media/          # Kullanıcı yüklemeleri
-├── staticfiles/    # Toplanan statik dosyalar
-├── templates/      # HTML şablonları
-└── venv/           # Sanal ortam
+├── static/          # Static files (CSS, JS, images)
+├── media/           # User uploads
+├── staticfiles/     # Collected static files
+├── templates/       # HTML templates
+└── venv/            # Virtual environment
+```
