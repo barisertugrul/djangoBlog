@@ -3,7 +3,14 @@
 **/__pycache__/
 **/*.pyc
 
-/media
-/static
-/staticfiles
+# Static files
+/static/
+/staticfiles/
+
+# Media files
+/media/
+
+# Virtual environment
+/.venv/
+/.env/
 .env
