@@ -1,8 +1,8 @@
-from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404, reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from article.models import Article
+from article.models import Article, Comment
 
 from .forms import ArticleForm
 
@@ -22,7 +22,10 @@ def articles(request):
     return render(request, 'articles.html', context)
 
 def index(request):
-    context = {}
+    carousels = Article.objects.all() # for slice -> [:4]
+    context = {
+        'carousels': carousels
+    }
     return render(request, 'index.html', context)
 
 def about(request):
@@ -55,8 +58,11 @@ def detail(request, id):
         'article': Article.objects.filter(id=id, author=request.user).first()
     } """
     article = get_object_or_404(Article, id=id)
+    comments = article.comments.all()
+
     context = {
-        'article': article
+        'article': article,
+        'comments': comments
     }
     return render(request, 'detail.html', context)
 
@@ -83,3 +89,16 @@ def delete(request, id):
     article.delete()
     messages.success(request, 'Article deleted successfully')
     return redirect('article:dashboard')
+
+def addComment(request, id):
+    article = get_object_or_404(Article, id=id)
+    if request.method == 'POST':
+        comment_author = request.POST.get('comment_author')
+        comment_content = request.POST.get('comment_content')
+
+        new_comment = Comment(comment_author=comment_author, comment_content=comment_content)
+        new_comment.article = article
+        new_comment.save()
+
+        messages.success(request, 'Comment added successfully')
+    return redirect(reverse('article:detail', kwargs={'id': id}))
